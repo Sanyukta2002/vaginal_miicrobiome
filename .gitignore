@@ -1,0 +1,7 @@
+results/
+logs/
+raw/
+work/
+tmp/
+.nextflow*
+*.fastq.gz
