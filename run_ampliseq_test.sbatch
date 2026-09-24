@@ -8,6 +8,7 @@
 #SBATCH -o logs/%x_%j.out
 #SBATCH -e logs/%x_%j.err
 
+source /etc/profile
 module load java/21.0.8 apptainer/1.3.6
 export NXF_HOME=/N/project/BacInteraction/schapag_cowrumen/nextflow_home
 export NXF_SINGULARITY_CACHEDIR=/N/scratch/schapag/apptainer_cache/nxf
