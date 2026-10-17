@@ -1,7 +1,17 @@
+# large or regenerable
 results/
 logs/
 raw/
 work/
 tmp/
+null/
 .nextflow*
 *.fastq.gz
+*.tar.gz
+
+# JVM crash dumps
+hs_err_pid*.log
+replay_pid*.log
+
+# published papers - copyright, cite the DOI instead
+*.pdf

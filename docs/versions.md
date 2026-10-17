@@ -20,6 +20,6 @@
 - Sequencing runs: IL02, IL03, IL05-IL09 (IL04 had no vaginal swabs, not deposited)
 - NOTE: cohort is perfectly confounded with run (Stanford = IL02/03/05/07/08; UAB = IL06/09).
   All association tests are within-cohort; between-cohort contrasts are descriptive only.
-- Forward primer (from df): 515F-Y GTGYCAGCMGCCGCGGTAA. Reverse (806R) still to confirm from paper SI.
+- Forward primer (from df): 515F-Y GTGYCAGCMGCCGCGGTAA. Reverse primer (from paper SI, 56-nt fusion construct): 806RB GGACTACNVGGGTWTCTAAT. Both confirmed ABSENT from reads (EMP design) - see docs/decisions.md Findings 1.
 - Outputs: assets/samplesheet_all.csv (2,367), assets/samplesheet_swabs.csv (2,179),
   assets/metadata_ampliseq.tsv. Sample IDs prefixed "S" (ampliseq requires non-numeric start).
