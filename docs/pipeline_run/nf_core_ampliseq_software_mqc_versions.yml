@@ -1,0 +1,43 @@
+BARRNAP:
+  barrnap: 0.9
+BARRNAPSUMMARY:
+  python: Python 3.9.1
+DADA2_ADDSPECIES:
+  R: 4.5.2
+  dada2: 1.38.0
+DADA2_DENOISING:
+  R: 4.5.2
+  dada2: 1.38.0
+DADA2_ERR:
+  R: 4.5.2
+  dada2: 1.38.0
+DADA2_FILTNTRIM:
+  R: 4.5.2
+  dada2: 1.38.0
+DADA2_MERGE:
+  R: 4.5.2
+  dada2: 1.38.0
+DADA2_RMCHIMERA:
+  R: 4.5.2
+  dada2: 1.38.0
+DADA2_STATS:
+  R: 4.5.2
+  dada2: 1.38.0
+DADA2_TAXONOMY:
+  R: 4.5.2
+  dada2: 1.38.0
+FASTQC:
+  fastqc: 0.12.1
+FORMAT_TAXONOMY:
+  sed: 4.7
+PHYLOSEQ:
+  R: 4.4.2
+  phyloseq: 1.50.0
+RENAME_RAW_DATA_FILES:
+  sed: 4.7
+TREESUMMARIZEDEXPERIMENT:
+  R: 4.3.2
+  TreeSummarizedExperiment: 2.10.0
+Workflow:
+    nf-core/ampliseq: v2.18.0-g2723d4c
+    Nextflow: 26.04.6

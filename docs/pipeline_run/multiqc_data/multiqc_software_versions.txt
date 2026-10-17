@@ -1,0 +1,17 @@
+Sample	barrnap	python	R	dada2	fastqc	sed	phyloseq	TreeSummarizedExperiment	nf-core/ampliseq	Nextflow
+BARRNAP	0.9									
+BARRNAPSUMMARY		Python 3.9.1								
+DADA2_ADDSPECIES			4.5.2	1.38.0						
+DADA2_DENOISING			4.5.2	1.38.0						
+DADA2_ERR			4.5.2	1.38.0						
+DADA2_FILTNTRIM			4.5.2	1.38.0						
+DADA2_MERGE			4.5.2	1.38.0						
+DADA2_RMCHIMERA			4.5.2	1.38.0						
+DADA2_STATS			4.5.2	1.38.0						
+DADA2_TAXONOMY			4.5.2	1.38.0						
+FORMAT_TAXONOMY						4.7				
+FastQC					0.12.1					
+PHYLOSEQ			4.4.2				1.50.0			
+RENAME_RAW_DATA_FILES						4.7				
+TREESUMMARIZEDEXPERIMENT			4.3.2					2.10.0		
+Workflow									v2.18.0-g2723d4c	26.04.6
