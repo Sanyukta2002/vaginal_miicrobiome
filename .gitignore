@@ -15,3 +15,8 @@ replay_pid*.log
 
 # published papers - copyright, cite the DOI instead
 *.pdf
+
+# macOS cruft from the authors' deposit
+.DS_Store
+._*
+.Rhistory
