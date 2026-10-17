@@ -1,0 +1,473 @@
+<!--
+  ~ Copyright 2013-2026, Seqera Labs
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<html>
+<head>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+</head>
+<body>
+<pre class="mermaid" style="text-align: center;">
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#B6ECE2',
+      'primaryTextColor': '#160F26',
+      'primaryBorderColor': '#065647',
+      'lineColor': '#545555',
+      'clusterBkg': '#BABCBD22',
+      'clusterBorder': '#DDDEDE',
+      'fontFamily': 'arial'
+    }
+  }
+}%%
+flowchart TB
+    subgraph " "
+    v0["channel.empty"]
+    v2["channel.empty"]
+    v3["channel.empty"]
+    v4["channel.empty"]
+    v5["channel.fromPath"]
+    v6["channel.fromPath"]
+    v7["channel.fromPath"]
+    v8["channel.fromPath"]
+    v9["channel.empty"]
+    v10["channel.empty"]
+    v12["channel.fromList"]
+    v14["channel.empty"]
+    v24["channel.empty"]
+    v26["channel.empty"]
+    v28["channel.empty"]
+    v30["channel.empty"]
+    v32["channel.empty"]
+    v34["channel.fromList"]
+    v36["channel.empty"]
+    v38["channel.empty"]
+    v40["channel.empty"]
+    v42["channel.empty"]
+    v44["channel.empty"]
+    v61["channel.empty"]
+    v62["channel.fromList"]
+    v82["channel.empty"]
+    v119["iscontaminant_method"]
+    v120["iscontaminant_threshold"]
+    v121["isnotcontaminant_threshold"]
+    v136["suffix"]
+    v142["outfile"]
+    v143["taxlevels_input"]
+    v150["taxlevels_input"]
+    v158["channel.empty"]
+    v160["channel.empty"]
+    v162["channel.empty"]
+    v164["channel.empty"]
+    v166["channel.empty"]
+    v168["channel.empty"]
+    v170["channel.empty"]
+    v181[" "]
+    v191["channel.of"]
+    v196[" "]
+    v199[" "]
+    v228[" "]
+    v236["report_abstract"]
+    v237["input_samplesheet"]
+    v238["cutadapt_summary"]
+    v239["find_truncation_values"]
+    v240["dada_qual_stats"]
+    v241["dada_pp_qual_stats"]
+    v242["mergepairs_strategy"]
+    v243["vsearch_cluster"]
+    v244["decontam"]
+    v245["filter_ssu_stats"]
+    v246["filter_ssu_asv"]
+    v247["filter_len_asv_stats"]
+    v248["filter_len_asv_len_orig"]
+    v249["filter_codons_fasta"]
+    v250["filter_codons_stats"]
+    v251["itsx_cutasv_summary"]
+    v252["sintax_tax"]
+    v253["vsearch_lca_tax"]
+    v254["kraken2_tax"]
+    v255["pplace_tax"]
+    v256[" "]
+    v257["qiime2_tax"]
+    v258["run_qiime2"]
+    v259["val_used_taxonomy"]
+    v260["qiime2_filtertaxa"]
+    v261["filter_stats_tsv"]
+    v262["barplot"]
+    v263["abundance_tables"]
+    v264["alpha_rarefaction"]
+    v265["diversity_indices"]
+    v266["diversity_indices_alpha"]
+    v267["diversity_indices_beta"]
+    v268["diversity_indices_adonis"]
+    v269["ancom"]
+    v270["ancombc"]
+    v271["ancombc_formula"]
+    v272["ancombc2"]
+    v273["ancombc2_formula"]
+    v274["picrust_pathways"]
+    v275["sbdi"]
+    end
+    subgraph " "
+    v1["versions"]
+    v11["ch_input_reads"]
+    v15["ch_pplace_sheet"]
+    v25["ch_sidle_ref_taxonomy"]
+    v27["ch_sidle_ref_taxonomy_tree"]
+    v29["ch_dada_assigntax"]
+    v31["ch_dada_addspecies"]
+    v33["ch_dada_ref_taxonomy"]
+    v37["ch_qiime_ref_taxonomy"]
+    v39["ch_qiime_classifier"]
+    v41["ch_sintax_ref_taxonomy"]
+    v43["ch_vsearch_lca_ref_taxonomy"]
+    v45["ch_kraken2_ref_taxonomy"]
+    v47[" "]
+    v49[" "]
+    v50[" "]
+    v60["ch_all_trimmed_reads"]
+    v66[" "]
+    v81["ch_all_preprocessed_reads"]
+    v90["qc_svg"]
+    v92["qc_svg_preprocessed"]
+    v94[" "]
+    v95[" "]
+    v96[" "]
+    v97[" "]
+    v98[" "]
+    v101[" "]
+    v102[" "]
+    v103[" "]
+    v105[" "]
+    v106[" "]
+    v111[" "]
+    v117[" "]
+    v118[" "]
+    v123[" "]
+    v124[" "]
+    v125[" "]
+    v126[" "]
+    v127[" "]
+    v129[" "]
+    v130[" "]
+    v133[" "]
+    v138[" "]
+    v139[" "]
+    v145[" "]
+    v146[" "]
+    v152[" "]
+    v153[" "]
+    v159["ch_kraken2_tax"]
+    v161["ch_sintax_tax"]
+    v163["ch_vsearch_lca_raw"]
+    v165["ch_vsearch_lca_tax"]
+    v167["ch_pplace_tax"]
+    v169["ch_qiime2_tax"]
+    v178[" "]
+    v180[" "]
+    v206[" "]
+    v207[" "]
+    v277[" "]
+    v278[" "]
+    v280["versions"]
+    v282[" "]
+    end
+    subgraph "NFCORE_AMPLISEQ [NFCORE_AMPLISEQ]"
+    subgraph "NFCORE_AMPLISEQ:AMPLISEQ [AMPLISEQ]"
+    v46(["RENAME_RAW_DATA_FILES"])
+    v48(["FASTQC"])
+    subgraph "NFCORE_AMPLISEQ:AMPLISEQ:DADA2_PREPROCESSING [DADA2_PREPROCESSING]"
+    v65(["DADA2_FILTNTRIM"])
+    v53(( ))
+    v63(( ))
+    v67(( ))
+    v89(( ))
+    v91(( ))
+    end
+    v93(["DADA2_ERR"])
+    v100(["DADA2_DENOISING"])
+    v104(["DADA2_RMCHIMERA"])
+    v110(["DADA2_STATS"])
+    v116(["DADA2_MERGE"])
+    v122(["DECONTAM"])
+    v128(["BARRNAP"])
+    v132(["BARRNAPSUMMARY"])
+    v137(["FORMAT_TAXONOMY"])
+    subgraph "NFCORE_AMPLISEQ:AMPLISEQ:DADA2_TAXONOMY_WF [DADA2_TAXONOMY_WF]"
+    v144(["DADA2_TAXONOMY"])
+    v151(["DADA2_ADDSPECIES"])
+    v140(( ))
+    v141(( ))
+    v147(( ))
+    v149(( ))
+    v154(( ))
+    end
+    subgraph "NFCORE_AMPLISEQ:AMPLISEQ:ROBJECT_WORKFLOW [ROBJECT_WORKFLOW]"
+    v177(["PHYLOSEQ"])
+    v179(["TREESUMMARIZEDEXPERIMENT"])
+    v171(( ))
+    end
+    v205(["MULTIQC"])
+    v276(["SUMMARY_REPORT"])
+    v13(( ))
+    v35(( ))
+    v51(( ))
+    v99(( ))
+    v107(( ))
+    v112(( ))
+    v114(( ))
+    v131(( ))
+    v134(( ))
+    v156(( ))
+    v208(( ))
+    v210(( ))
+    v211(( ))
+    v212(( ))
+    v214(( ))
+    v218(( ))
+    v219(( ))
+    v220(( ))
+    v221(( ))
+    v222(( ))
+    v223(( ))
+    v224(( ))
+    v225(( ))
+    v226(( ))
+    v227(( ))
+    v229(( ))
+    v230(( ))
+    v233(( ))
+    v279(( ))
+    end
+    end
+    subgraph "PIPELINE_COMPLETION [PIPELINE_COMPLETION]"
+    v281(( ))
+    end
+    v0 --> v1
+    v2 --> v156
+    v3 --> v51
+    v3 --> v279
+    v4 --> v51
+    v5 --> v171
+    v5 --> v210
+    v6 --> v276
+    v7 --> v276
+    v8 --> v276
+    v9 --> v211
+    v10 --> v11
+    v12 --> v13
+    v14 --> v15
+    v24 --> v25
+    v26 --> v27
+    v28 --> v29
+    v30 --> v31
+    v32 --> v33
+    v34 --> v35
+    v36 --> v37
+    v38 --> v39
+    v40 --> v41
+    v42 --> v43
+    v44 --> v45
+    v13 --> v46
+    v46 --> v48
+    v46 --> v47
+    v46 --> v53
+    v46 --> v63
+    v48 --> v50
+    v48 --> v49
+    v48 --> v51
+    v53 --> v60
+    v61 --> v89
+    v62 --> v63
+    v63 --> v65
+    v65 --> v66
+    v65 --> v67
+    v67 --> v81
+    v82 --> v91
+    v89 --> v90
+    v91 --> v92
+    v67 --> v93
+    v93 --> v98
+    v93 --> v97
+    v93 --> v96
+    v93 --> v95
+    v93 --> v94
+    v93 --> v99
+    v93 --> v214
+    v99 --> v100
+    v100 --> v104
+    v100 --> v103
+    v100 --> v102
+    v100 --> v101
+    v100 --> v107
+    v104 --> v106
+    v104 --> v105
+    v104 --> v107
+    v104 --> v114
+    v107 --> v110
+    v110 --> v111
+    v110 --> v112
+    v112 --> v116
+    v114 --> v116
+    v116 --> v122
+    v116 --> v128
+    v116 --> v118
+    v116 --> v117
+    v116 --> v140
+    v116 --> v171
+    v116 --> v218
+    v116 --> v219
+    v116 --> v220
+    v116 --> v221
+    v119 --> v122
+    v120 --> v122
+    v121 --> v122
+    v13 --> v122
+    v122 --> v127
+    v122 --> v126
+    v122 --> v125
+    v122 --> v124
+    v122 --> v123
+    v122 --> v222
+    v122 --> v223
+    v122 --> v224
+    v122 --> v225
+    v128 --> v130
+    v128 --> v129
+    v128 --> v131
+    v131 --> v132
+    v132 --> v133
+    v132 --> v134
+    v132 --> v226
+    v136 --> v137
+    v35 --> v137
+    v137 --> v139
+    v137 --> v138
+    v137 --> v141
+    v137 --> v149
+    v142 --> v144
+    v143 --> v144
+    v140 --> v144
+    v141 --> v144
+    v144 --> v151
+    v144 --> v146
+    v144 --> v145
+    v144 --> v147
+    v150 --> v151
+    v149 --> v151
+    v151 --> v153
+    v151 --> v152
+    v151 --> v154
+    v158 --> v159
+    v160 --> v161
+    v162 --> v163
+    v164 --> v165
+    v166 --> v167
+    v168 --> v169
+    v170 --> v171
+    v171 --> v177
+    v177 --> v178
+    v177 --> v230
+    v171 --> v179
+    v179 --> v180
+    v179 --> v233
+    v181 --> v51
+    v191 --> v51
+    v196 --> v51
+    v199 --> v51
+    v51 --> v205
+    v205 --> v207
+    v205 --> v276
+    v205 --> v206
+    v205 --> v208
+    v228 --> v229
+    v236 --> v276
+    v237 --> v276
+    v238 --> v276
+    v239 --> v276
+    v240 --> v276
+    v241 --> v276
+    v242 --> v276
+    v243 --> v276
+    v244 --> v276
+    v245 --> v276
+    v246 --> v276
+    v247 --> v276
+    v248 --> v276
+    v249 --> v276
+    v250 --> v276
+    v251 --> v276
+    v252 --> v276
+    v253 --> v276
+    v254 --> v276
+    v255 --> v276
+    v256 --> v276
+    v257 --> v276
+    v258 --> v276
+    v259 --> v276
+    v260 --> v276
+    v261 --> v276
+    v262 --> v276
+    v263 --> v276
+    v264 --> v276
+    v265 --> v276
+    v266 --> v276
+    v267 --> v276
+    v268 --> v276
+    v269 --> v276
+    v270 --> v276
+    v271 --> v276
+    v272 --> v276
+    v273 --> v276
+    v274 --> v276
+    v275 --> v276
+    v210 --> v276
+    v211 --> v276
+    v212 --> v276
+    v214 --> v276
+    v218 --> v276
+    v219 --> v276
+    v220 --> v276
+    v221 --> v276
+    v222 --> v276
+    v223 --> v276
+    v224 --> v276
+    v225 --> v276
+    v226 --> v276
+    v227 --> v276
+    v229 --> v276
+    v230 --> v276
+    v233 --> v276
+    v276 --> v278
+    v276 --> v277
+    v276 --> v279
+    v279 --> v280
+    v281 --> v282
+    v67 --> v99
+    v67 --> v107
+    v67 --> v212
+    v154 --> v156
+    v154 --> v227
+    v156 --> v171
+    v208 --> v281
+
+</pre>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true, maxTextSize: Number.MAX_SAFE_INTEGER, maxEdges: Number.MAX_SAFE_INTEGER });
+</script>
+</body>
+</html>
