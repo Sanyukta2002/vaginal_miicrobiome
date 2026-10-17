@@ -224,7 +224,7 @@ def main(argv=None):
         print("  %-42s %12d %6.2f%%   %12d %6.2f%%"
               % (k[:42], b, pct(b, grand), a_, pct(a_, grand)))
 
-    with open(args.out, "w") as out:
+    with open(args.out, "w", newline="\n") as out:
         out.write("ASV_ID\tcurated_species\toffset\treads\tsilva_genus\tsilva_species\n")
         for a in sorted(hits, key=lambda x: -totals.get(x, 0)):
             sp = "/".join(sorted({x for x, _ in hits[a]}))
