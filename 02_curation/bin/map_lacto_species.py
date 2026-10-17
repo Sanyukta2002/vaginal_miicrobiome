@@ -1,34 +1,31 @@
 #!/usr/bin/env python3
 """Apply the authors' hand curation of Lactobacillus V4 species to our ASVs.
 
-Why: SILVA 138's species-level assignment cannot separate the L. acidophilus
-complex on V4. Our run calls 19.98% of reads "Lactobacillus acidophilus" and
-0.00% "L. crispatus", which is backwards for vaginal communities -- the signal
-the paper is built on. Callahan et al. solved this by curating the V4 sequences
-of the Lactobacillus species that actually occur here (LactoSpecies_ByHand.rds,
-40 sequences / 14 species) and overwriting the Species column with it.
+Why: SILVA 138's species assignment cannot separate the L. acidophilus complex
+on the V4 region. Our run called 19.98% of reads "Lactobacillus acidophilus"
+and 0.00% "L. crispatus", which is backwards for vaginal communities and
+destroys the crispatus/iners distinction the paper's result rests on.
+Callahan et al. solved this by curating the V4 sequences of the Lactobacillus
+species that actually occur here (40 sequences / 14 species) and overwriting
+the Species column with it.
 
 Their curated sequences are 235 bp; ours are 253 bp, because their trimming
-started ~10 bases further in and ended ~8 earlier. So the match is exact
+started ~10 bases further in and ended ~8 earlier. So a match is exact
 containment of their sequence inside ours, not equality.
 
-This script reports before deciding anything: offsets, coverage, ambiguity, and
-the resulting shift in species abundance. It writes the ASV -> species map but
-does NOT modify the ASV table or taxonomy file; that is a separate step once
-these numbers look right.
+This reports before deciding anything, and writes the ASV -> species map. It
+does NOT modify the ASV table or taxonomy file; that is a separate step.
+
+Paths default to the repository layout and can be overridden, so the same
+script runs on the cluster and from a clone.
 """
+import argparse
+import gzip
 import os
 import sys
 from collections import Counter, defaultdict
 
-PROJ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-D = os.path.join(PROJ, "results/main/dada2")
-FASTA = os.path.join(D, "ASV_seqs.fasta")
-TAX = os.path.join(D, "ASV_tax_species.silva_138.tsv")
-TABLE = os.path.join(D, "ASV_table.tsv")
-CURATED = os.path.join(PROJ, "assets/LactoSpecies_ByHand.tsv")
-OUT = os.path.join(PROJ, "assets/lacto_species_map.tsv")
-
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 COMP = str.maketrans("ACGTN", "TGCAN")
 
 
@@ -36,9 +33,21 @@ def rc(s):
     return s.translate(COMP)[::-1]
 
 
+def opener(path):
+    return gzip.open(path, "rt") if path.endswith(".gz") else open(path)
+
+
+def asv_table_path(frozen):
+    for name in ("ASV_table.tsv.gz", "ASV_table.tsv"):
+        p = os.path.join(frozen, name)
+        if os.path.exists(p):
+            return p
+    sys.exit("no ASV_table.tsv or ASV_table.tsv.gz under %s" % frozen)
+
+
 def read_fasta(path):
     seqs, name, chunks = {}, None, []
-    with open(path) as f:
+    with opener(path) as f:
         for line in f:
             line = line.rstrip("\n")
             if line.startswith(">"):
@@ -53,7 +62,7 @@ def read_fasta(path):
 
 
 def read_tax(path):
-    with open(path) as f:
+    with opener(path) as f:
         hdr = f.readline().rstrip("\n").split("\t")
         idx = {c: i for i, c in enumerate(hdr)}
         for col in ("ASV_ID", "Genus", "Species"):
@@ -71,8 +80,8 @@ def read_tax(path):
 def read_totals(path):
     """Total reads per ASV, summed across all samples."""
     totals = {}
-    with open(path) as f:
-        f.readline()                       # header: ASV_ID + sample columns
+    with opener(path) as f:
+        f.readline()
         for line in f:
             p = line.rstrip("\n").split("\t")
             totals[p[0]] = sum(int(x) for x in p[1:] if x)
@@ -81,7 +90,7 @@ def read_totals(path):
 
 def read_curated(path):
     out = []
-    with open(path) as f:
+    with opener(path) as f:
         f.readline()
         for line in f:
             sp, _len, seq = line.rstrip("\n").split("\t")
@@ -93,13 +102,38 @@ def pct(n, d):
     return 0.0 if not d else 100.0 * n / d
 
 
-def main():
-    asv_seq = read_fasta(FASTA)
-    tax = read_tax(TAX)
-    totals = read_totals(TABLE)
-    curated = read_curated(CURATED)
+def parse_args(argv=None):
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--frozen", default=os.path.join(ROOT, "data", "frozen"),
+                    help="directory holding ASV_seqs.fasta, ASV_table.tsv[.gz] "
+                         "and ASV_tax_species.silva_138.tsv (default: %(default)s)")
+    ap.add_argument("--curated",
+                    default=os.path.join(ROOT, "02_curation", "LactoSpecies_ByHand.tsv"),
+                    help="the authors' curated species table (default: %(default)s)")
+    ap.add_argument("--out",
+                    default=os.path.join(ROOT, "02_curation", "lacto_species_map.tsv"),
+                    help="where to write the ASV -> species map (default: %(default)s)")
+    return ap.parse_args(argv)
+
+
+def main(argv=None):
+    args = parse_args(argv)
+    fasta = os.path.join(args.frozen, "ASV_seqs.fasta")
+    tax_f = os.path.join(args.frozen, "ASV_tax_species.silva_138.tsv")
+    table = asv_table_path(args.frozen)
+
+    for p in (fasta, tax_f, args.curated):
+        if not os.path.exists(p):
+            sys.exit("missing input: %s" % p)
+
+    asv_seq = read_fasta(fasta)
+    tax = read_tax(tax_f)
+    totals = read_totals(table)
+    curated = read_curated(args.curated)
 
     print("inputs")
+    print("  frozen dir           : %s" % args.frozen)
     print("  ASVs in fasta        : %d" % len(asv_seq))
     print("  ASVs in taxonomy     : %d" % len(tax))
     print("  ASVs in count table  : %d" % len(totals))
@@ -112,8 +146,7 @@ def main():
     if missing:
         print("  WARNING %d ASVs in fasta absent from taxonomy" % len(missing))
 
-    # ---- match ---------------------------------------------------------
-    hits = defaultdict(list)               # asv_id -> [(species, offset)]
+    hits = defaultdict(list)
     rc_only = []
     offsets = Counter()
     for asv, seq in asv_seq.items():
@@ -125,7 +158,6 @@ def main():
             elif seq.find(rc(cseq)) >= 0:
                 rc_only.append((asv, sp))
 
-    matched_curated = {sp for v in hits.values() for sp, _ in v}
     unmatched_curated = [(sp, s) for sp, s in curated
                          if not any(s in q for q in asv_seq.values())]
 
@@ -153,7 +185,6 @@ def main():
             print("    %s  %8d reads  %s"
                   % (a, totals.get(a, 0), ", ".join(sorted({sp for sp, _ in v}))))
 
-    # ---- sanity: did we match things SILVA did not call Lactobacillus? --
     not_lacto = [(a, tax.get(a, ("", ""))[0], totals.get(a, 0))
                  for a in hits if tax.get(a, ("", ""))[0] != "Lactobacillus"]
     print("\nconsistency with SILVA genus")
@@ -171,16 +202,13 @@ def main():
           % (len([a for a in hits if tax.get(a, ("", ""))[0] == "Lactobacillus"]),
              covered, pct(covered, lacto_reads)))
 
-    # ---- before / after -------------------------------------------------
-    before = Counter()
-    after = Counter()
+    before, after = Counter(), Counter()
     for a, n in totals.items():
         g, s = tax.get(a, ("", ""))
         b = ("%s %s" % (g, s)).strip() if s else (g or "unassigned")
         before[b] += n
         if a in hits:
-            sp = sorted({x for x, _ in hits[a]})
-            after["Lactobacillus " + ("/".join(sp))] += n
+            after["Lactobacillus " + "/".join(sorted({x for x, _ in hits[a]}))] += n
         else:
             after[b] += n
 
@@ -196,16 +224,14 @@ def main():
         print("  %-42s %12d %6.2f%%   %12d %6.2f%%"
               % (k[:42], b, pct(b, grand), a_, pct(a_, grand)))
 
-    # ---- write map ------------------------------------------------------
-    with open(OUT, "w") as out:
+    with open(args.out, "w") as out:
         out.write("ASV_ID\tcurated_species\toffset\treads\tsilva_genus\tsilva_species\n")
         for a in sorted(hits, key=lambda x: -totals.get(x, 0)):
             sp = "/".join(sorted({x for x, _ in hits[a]}))
-            off = hits[a][0][1]
             g, s = tax.get(a, ("", ""))
             out.write("%s\t%s\t%d\t%d\t%s\t%s\n"
-                      % (a, sp, off, totals.get(a, 0), g, s))
-    print("\nwrote %s (%d ASVs)" % (OUT, len(hits)))
+                      % (a, sp, hits[a][0][1], totals.get(a, 0), g, s))
+    print("\nwrote %s (%d ASVs)" % (args.out, len(hits)))
 
 
 if __name__ == "__main__":
