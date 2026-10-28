@@ -1,0 +1,57 @@
+inputs
+  frozen dir           : data/pipeline
+  ASVs in fasta        : 7884
+  ASVs in taxonomy     : 7884
+  ASVs in count table  : 7884
+  curated sequences    : 40 (14 species)
+  total reads          : 346433494
+
+matching
+  ASVs with >=1 curated hit : 49
+  offset distribution       : 10 bp x48, 113 bp x1
+  curated seqs matched      : 38 / 40
+  unmatched curated sequences:
+    delbrueckii          GCAAGCGTTGTCCGGATTTATTGGGCGTAAAGCGAGCGCA...
+    iners                GCAAGCGTTGTCCGGATTTATTGGGCGTAAAGCGAGTGCA...
+
+consistency with SILVA genus
+  matched ASVs SILVA did NOT call Lactobacillus : 9
+    2ef1e51ab1cf99a3c6417b05a060830e    183398 reads  SILVA genus='HT002'
+    ff3739dd5a3c35cf09f01a391ce07570    142637 reads  SILVA genus='Limosilactobacillus'
+    1a069ea36017c7efc95d851374fa7382     44517 reads  SILVA genus='Limosilactobacillus'
+    09e996f449e880d1fd8f27d59e8d8b11     32020 reads  SILVA genus='Lacticaseibacillus'
+    bd7bb5b11e9ccba1afbf45d9e0d5808a     15248 reads  SILVA genus='Limosilactobacillus'
+    e34bae2ab1f4c6c95ef0229dd5bc6ae9     10127 reads  SILVA genus='Limosilactobacillus'
+    581a55014641e1cd55cdc272c0365a28      2869 reads  SILVA genus='Limosilactobacillus'
+    45d4fe3f6c01f77c2dfc11dd91d3359a      1142 reads  SILVA genus='Ligilactobacillus'
+    daaca63ff109dd6819af95c487d9314e       244 reads  SILVA genus='Ligilactobacillus'
+  genus Lactobacillus : 234 ASVs, 232223872 reads (67.03% of all)
+  of those, curated   : 40 ASVs, 231744546 reads (99.79% of Lactobacillus)
+
+Lactobacillus species abundance, SILVA vs curated
+  label                                            before       %          after       %
+  Lactobacillus iners                           124229130  35.86%      124229130  35.86%
+  Lactobacillus crispatus                              34   0.00%       81642287  23.57%
+  Lactobacillus acidophilus                      69233569  19.98%           3418   0.00%
+  Lactobacillus jensenii                         12845666   3.71%       13408471   3.87%
+  Lactobacillus                                  13003719   3.75%          14503   0.00%
+  Lactobacillus gasseri                             20306   0.01%       12912451   3.73%
+  Lactobacillus johnsonii                        12891283   3.72%              0   0.00%
+  Lactobacillus reuteri-vaginalis                       0   0.00%         227915   0.07%
+  Lactobacillus coleohominis                            0   0.00%         142637   0.04%
+  Lactobacillus rhamnosus-casei                         0   0.00%          32020   0.01%
+  Lactobacillus reuteri                                 0   0.00%          15248   0.00%
+  Lactobacillus kitasatonis                            42   0.00%          13489   0.00%
+  Lactobacillus oris-vaginalis                          0   0.00%          10127   0.00%
+  Lactobacillus fermentum                               0   0.00%           2869   0.00%
+  Lactobacillus salivarius                              0   0.00%           1142   0.00%
+  Lactobacillus ruminis                                 0   0.00%            244   0.00%
+  Lactobacillus amylovorus                             50   0.00%             50   0.00%
+  Lactobacillus delbrueckii                            28   0.00%             28   0.00%
+  Lactobacillus gallinarum                             17   0.00%             17   0.00%
+  Lactobacillus equicursoris                           11   0.00%             11   0.00%
+  Lactobacillus hominis                                 8   0.00%              8   0.00%
+  Lactobacillus ultunensis                              5   0.00%              5   0.00%
+  Lactobacillus fornicalis                              4   0.00%              4   0.00%
+
+wrote 02_curation/lacto_species_map.tsv (49 ASVs)

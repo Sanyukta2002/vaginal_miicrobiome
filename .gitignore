@@ -1,22 +1,27 @@
-# large or regenerable
-/results/
-logs/
+# pipeline run directories (created under 01_pipeline/ on the cluster)
+results/main/
+results/pilot*/
+results/ampliseq_test/
 raw/
 work/
+logs/
 tmp/
 null/
 .nextflow*
 *.fastq.gz
 *.tar.gz
-
-# JVM crash dumps
 hs_err_pid*.log
 replay_pid*.log
 
-# published papers - copyright, cite the DOI instead
+# figures are committed as PNG; PDFs and papers stay local
 *.pdf
 
-# macOS cruft from the authors' deposit
+# local only
+_local/
+_to_delete/
+.Rhistory
+.RData
+.Rproj.user/
+__pycache__/
 .DS_Store
 ._*
-.Rhistory

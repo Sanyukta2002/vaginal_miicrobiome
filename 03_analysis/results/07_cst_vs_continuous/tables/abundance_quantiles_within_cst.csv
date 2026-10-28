@@ -1,0 +1,31 @@
+"taxon","subCST","Cohort","abund.5%","abund.25%","abund.50%","abund.75%","abund.95%"
+"L. crispatus","I-A","Stanford",0.858,0.938,0.980,0.996,0.999
+"L. iners","I-A","Stanford",0.000,0.000,0.001,0.013,0.076
+"Gardnerella","I-A","Stanford",0.000,0.000,0.000,0.000,0.001
+"L. crispatus","I-B","Stanford",0.429,0.615,0.706,0.789,0.819
+"L. iners","I-B","Stanford",0.000,0.008,0.136,0.207,0.316
+"Gardnerella","I-B","Stanford",0.000,0.000,0.000,0.000,0.007
+"L. crispatus","III-A","Stanford",0.000,0.000,0.001,0.002,0.065
+"L. iners","III-A","Stanford",0.738,0.876,0.925,0.968,0.995
+"Gardnerella","III-A","Stanford",0.000,0.000,0.000,0.000,0.028
+"L. crispatus","III-B","Stanford",0.000,0.001,0.226,0.336,0.442
+"L. iners","III-B","Stanford",0.353,0.453,0.583,0.652,0.758
+"Gardnerella","III-B","Stanford",0.000,0.000,0.000,0.010,0.249
+"L. crispatus","IV-B","Stanford",0.000,0.000,0.000,0.000,0.001
+"L. iners","IV-B","Stanford",0.000,0.000,0.000,0.000,0.176
+"Gardnerella","IV-B","Stanford",0.161,0.304,0.481,0.638,0.863
+"L. crispatus","I-A","UAB",0.871,0.950,0.981,0.993,0.996
+"L. iners","I-A","UAB",0.001,0.001,0.002,0.004,0.032
+"Gardnerella","I-A","UAB",0.000,0.000,0.000,0.000,0.013
+"L. crispatus","I-B","UAB",0.274,0.426,0.590,0.782,0.818
+"L. iners","I-B","UAB",0.001,0.001,0.002,0.086,0.315
+"Gardnerella","I-B","UAB",0.000,0.000,0.000,0.003,0.024
+"L. crispatus","III-A","UAB",0.000,0.000,0.001,0.001,0.015
+"L. iners","III-A","UAB",0.707,0.824,0.940,0.986,0.997
+"Gardnerella","III-A","UAB",0.000,0.000,0.001,0.007,0.063
+"L. crispatus","III-B","UAB",0.000,0.000,0.001,0.001,0.219
+"L. iners","III-B","UAB",0.289,0.382,0.493,0.613,0.686
+"Gardnerella","III-B","UAB",0.000,0.022,0.075,0.144,0.251
+"L. crispatus","IV-B","UAB",0.000,0.000,0.000,0.000,0.001
+"L. iners","IV-B","UAB",0.000,0.012,0.084,0.194,0.324
+"Gardnerella","IV-B","UAB",0.084,0.182,0.280,0.421,0.681

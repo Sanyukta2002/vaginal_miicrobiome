@@ -1,7 +1,8 @@
-# Decisions log — Project A: Vaginal microbiome & preterm birth (16S reproduction)
+# Decisions log — Vaginal microbiome & preterm birth: CSTs vs continuous frequencies
 
-Reproduction of Callahan et al. 2017, PNAS (doi:10.1073/pnas.1705899114) from raw
-reads via nf-core/ampliseq. Every parameter choice and its evidence is recorded here.
+Analysis of public raw 16S reads (SRA SRP115697; study: Callahan et al. 2017, PNAS,
+doi:10.1073/pnas.1705899114) via nf-core/ampliseq, comparing VALENCIA CSTs with continuous
+taxon frequencies. Published results are used only to validate the pipeline. Every parameter choice and its evidence is recorded here.
 
 Project root: `/N/scratch/schapag/projectA_vmb_ptb`
 
@@ -38,6 +39,7 @@ Project root: `/N/scratch/schapag/projectA_vmb_ptb`
 | 3 | `--max_ee 2`; `maxN=0` (DADA2 default) | — | SI: "no ambiguous bases allowed, and each read required to have less than two expected errors" | 2026-09-24 |
 | 3 | `--ignore_empty_input_files`, `--ignore_failed_trimming`, `--ignore_failed_filtering` all set | omit vs set | Required, not optional: NTCs carry 6–117 reads and would fail post-filter gates, halting the whole run. Controls must stay in for `decontam` (Step 7) | 2026-09-24 |
 | 4 | Chimera removal by consensus (ampliseq default) | pooled vs consensus vs per-sample | SI: "ASVs were removed if identified as chimeric in a sufficient fraction of the samples in which they were present" | 2026-09-24 |
+| 8 | Wilcoxon p-values with the pre-R 4.6 rule (`03_analysis/functions.R`) | R 4.6 default (exact conditional with ties) vs exact only without ties | R 4.6.0 made `wilcox.test()` exact with ties, which changed every tied Stanford test. The pre-4.6 rule reproduces the published counts exactly (43 variants, 44 genera, Mycoplasma p = 0.042) and makes results independent of R version | 2026-10-28 |
 | 5 | `--skip_dada_addspecies` NOT used in the full run | skip (cheaper) vs keep | Species resolution is the paper's central result — low *L. crispatus* associates with PTB in both cohorts, *L. iners* does not; at genus level the signal vanishes. Tune `--dada_assign_chunksize` if memory is tight rather than dropping resolution | 2026-09-24 |
 | 5 | SILVA 138 | SILVA 128/132/138, GTDB, sbdi-gtdb (ampliseq default) | Paper used SILVA v123, not offered by ampliseq 2.18.0; 138 is the nearest supported release. Expect species-level differences vs the published table, notably from the 2020 *Lactobacillus* reclassification and the *Gardnerella* genus split — relevant to Step 6 validation | 2026-09-24 |
 | pilot | `--skip_taxonomy`, `--skip_qiime` | full pipeline vs trimmed | Taxonomy (SILVA download + `assignTaxonomy`) is the expensive tail and irrelevant to parameter selection. Restored for the full run | 2026-09-24 |
@@ -277,10 +279,10 @@ zero-mismatch default. More merging is partly less stringency. That ASV count ro
 4% and on-target read fraction did not move indicates the leniency is not importing
 noise, but the mechanism should be acknowledged.
 
-**DECISION: retain 245/235 for the primary analysis.** The project's claim is faithful
-reproduction; using the authors' parameters means any divergence from their published
-table is attributable to software versions rather than to our choices, which is exactly
-what Step 6 is meant to demonstrate. The sensitivity analysis is reported as a finding:
+**DECISION: retain 245/235 for the primary analysis.** Using the original study's parameters
+means the pipeline can be validated against its published table: any divergence is
+attributable to software versions rather than to our choices, which is what Step 6
+checks. The sensitivity analysis is reported as a finding:
 the parameter everyone picks arbitrarily does not move the biology here (r = 0.9997),
 and we can now quantify what the authors' choice cost in read retention. A supplementary
 220/180 run is justified if depth becomes limiting.

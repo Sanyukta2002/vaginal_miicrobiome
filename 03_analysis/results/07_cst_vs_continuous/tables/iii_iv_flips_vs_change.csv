@@ -1,0 +1,5 @@
+"Cohort","type","n_pairs","women","median_abs_dG","pct_dG_below_0.05","pct_dG_above_0.10","pct_both_near_boundary","median_BC","pct_BC_below_0.2","pct_BC_above_0.5"
+"Stanford","III<->IV flip",9,5,0,66.7,11.1,0,0.524,0,77.8
+"Stanford","no flip",261,22,0,79.7,12.6,0,0.107,69.3,4.6
+"UAB","III<->IV flip",138,43,0.051,49.3,35.5,0,0.623,0,70.3
+"UAB","no flip",476,74,0.017,64.9,18.9,0.6,0.243,42.2,13.7

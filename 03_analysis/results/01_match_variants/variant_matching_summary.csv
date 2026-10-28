@@ -1,0 +1,12 @@
+"metric","value"
+"ASVs, all samples",7884
+"ASVs with reads in swabs",6209
+"variants after collapsing to 235 bp",6040
+"deposited variants",2699
+"deposited variants found in ours",2639
+"% deposited reads found in ours",99.995
+"our variants found in deposit",2639
+"% our reads found in deposit",99.835
+"our variants passing filter (swabs)",1733
+"deposited variants passing filter (swabs)",1655
+"deposited variants passing filter (all 6,088 samples)",2699

@@ -1,0 +1,4 @@
+"genus","direction","p_Stanford","paper_Stanford","p_UAB","paper_UAB"
+"Lactobacillus","lower in PTB",0.00928174397664061,0.009282,0.252509576926814,0.2478
+"Gardnerella","higher in PTB",0.00693752920035414,0.007006,0.203392880439973,0.1931
+"Ureaplasma","higher in PTB",0.314332892597528,0.3022,0.775067052811221,0.7728

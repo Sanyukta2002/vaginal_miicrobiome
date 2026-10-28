@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
-"""Stratified pilot samplesheet for parameter selection (Steps 2-4).
+"""Pilot samplesheet for choosing DADA2 parameters: ~127 swabs across all 7 runs plus EC/NTC/mock controls.
 
-~127 vaginal swabs across all 7 runs (floor 10/run), plus EC/NTC/mock controls.
-IL02 is deliberately loaded with both R1/R2-swapped and normal samples so the
-orientation correction is validated by the merge rate.
-Deterministic: fixed seed.
+IL02 gets 10 R1/R2-swapped and 10 normal swabs so the orientation fix can be checked by merge rate.
 """
 import csv, os, random, sys, collections
 
@@ -16,15 +13,15 @@ OUT   = os.path.join(PROJ, "assets/samplesheet_pilot.csv")
 OUTM  = os.path.join(PROJ, "assets/metadata_pilot.tsv")
 
 SEED         = 20260924
-BASE_PER_RUN = 10      # floor of swabs per run
-EXTRA_TOTAL  = 50      # distributed proportionally on top of the floor
-IL02_SWAPPED = 10      # forced swapped IL02 swabs
-IL02_NORMAL  = 10      # forced normal  IL02 swabs
-MIN_DEPTH    = 10000   # swabs only; controls are exempt
+BASE_PER_RUN = 10
+EXTRA_TOTAL  = 50
+IL02_SWAPPED = 10
+IL02_NORMAL  = 10
+MIN_DEPTH    = 10000
 EC_PER_RUN   = 2
 NTC_PER_RUN  = 2
 MOCK_PER_RUN = 2
-FORCE_SRR    = {"SRR5970816"}   # IL03 extraction control, 90,157 reads — extreme outlier
+FORCE_SRR    = {"SRR5970816"}   # IL03 extraction control with 90,157 reads
 
 random.seed(SEED)
 
@@ -45,7 +42,7 @@ swabs = [m for m in meta if m["SampleType"] == "VaginalSwab"]
 swab_n = collections.Counter(m["Run"] for m in swabs)
 total_swabs = sum(swab_n.values())
 
-# --- allocation per run -------------------------------------------------
+# Swabs per run: floor plus a share proportional to run size
 alloc = {}
 for r in runs:
     alloc[r] = BASE_PER_RUN + round(EXTRA_TOTAL * swab_n[r] / total_swabs)
@@ -58,7 +55,6 @@ def pick(pool, n):
 
 chosen = []
 
-# IL02: forced split so the swap fix is exercised
 il02 = [m for m in swabs if m["Run"] == "IL02" and m["_depth"] >= MIN_DEPTH]
 sw  = [m for m in il02 if m["MatesSwapped"] == "yes"]
 nsw = [m for m in il02 if m["MatesSwapped"] == "no"]
@@ -67,7 +63,6 @@ if len(sw) < IL02_SWAPPED or len(nsw) < IL02_NORMAL:
              f"(swapped={len(sw)}, normal={len(nsw)})")
 chosen += pick(sw, IL02_SWAPPED) + pick(nsw, IL02_NORMAL)
 
-# other runs: swabs above depth floor
 for r in runs:
     if r == "IL02":
         continue
@@ -78,13 +73,12 @@ for r in runs:
               f"(wanted {alloc[r]})")
     chosen += pick(pool, want)
 
-# controls and mocks: NO depth filter (near-empty NTCs are the point)
+# Controls and mocks, no depth filter
 for r in runs:
     for stype, k in (("EC", EC_PER_RUN), ("NTC", NTC_PER_RUN), ("Mock", MOCK_PER_RUN)):
         pool = [m for m in meta if m["Run"] == r and m["SampleType"] == stype]
         chosen += pick(pool, min(k, len(pool)))
 
-# forced inclusions (outliers we want eyes on early)
 have = {m["ID"] for m in chosen}
 for m in meta:
     if m["SRR"] in FORCE_SRR and m["ID"] not in have:
@@ -92,7 +86,6 @@ for m in meta:
         print(f"  forced: {m['ID']} ({m['SRR']}, {m['SampleType']}, "
               f"{m['Run']}, {m['_depth']:,} reads)")
 
-# --- write --------------------------------------------------------------
 ids = [m["ID"] for m in chosen]
 assert len(ids) == len(set(ids)), "duplicate sample in pilot"
 
@@ -111,7 +104,6 @@ with open(OUTM, "w", newline="") as f:
     for m in chosen:
         w.writerow([m[k] for k in keys])
 
-# --- report -------------------------------------------------------------
 print(f"\npilot: {len(chosen)} samples -> {os.path.relpath(OUT, PROJ)}")
 print("\nby run x type:")
 tab = collections.Counter((m["Run"], m["SampleType"]) for m in chosen)

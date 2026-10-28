@@ -1,0 +1,11 @@
+"taxon","measure","kind","Stanford_PTB_vs_term","p_Stanford","UAB_PTB_vs_term","p_UAB"
+"L. crispatus","crispatus","continuous","0.009 vs 0.356",0.023,"0.001 vs 0.001",0.0422
+"L. crispatus","frac_I","CST","0.000 vs 0.364",0.0835,"0.000 vs 0.000",0.218
+"L. iners","iners","continuous","0.001 vs 0.061",0.251,"0.411 vs 0.338",0.761
+"L. iners","frac_III","CST","0.000 vs 0.000",0.312,"0.600 vs 0.526",0.79
+"Gardnerella","Gardnerella","continuous","0.004 vs 0.000",0.00694,"0.062 vs 0.040",0.203
+"Gardnerella","frac_IVB","CST","0.000 vs 0.000",0.0345,"0.000 vs 0.000",0.69
+"Gardnerella / BV-like","frac_IV","CST","0.167 vs 0.000",0.029,"0.200 vs 0.222",0.386
+"BV-like","ever_IV","CST (yes/no)","5/9 vs 7/30",0.0797,"33/41 vs 41/55",0.332
+"BV-like","modal_IV","CST (yes/no)","3/9 vs 3/30",0.123,"9/41 vs 14/55",0.737
+"Gardnerella G2","G2","continuous","0.001 vs 0.000",0.00353,"0.004 vs 0.002",0.141

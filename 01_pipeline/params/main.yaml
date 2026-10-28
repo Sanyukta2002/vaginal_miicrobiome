@@ -1,55 +1,34 @@
-# Main run - full dataset. Parameters from Callahan et al. 2017 SI unless noted.
-input:    assets/samplesheet_all.csv       # 2,367 = 2,179 swabs + 101 EC + 61 NTC + 26 mocks
+# nf-core/ampliseq 2.18.0, full run. DADA2 settings follow the original study's SI.
+input:    assets/samplesheet_all.csv          # 2,179 swabs + 101 EC + 61 NTC + 26 mocks
 metadata: assets/metadata_ampliseq.tsv
 outdir:   results/main
 
-# Primers exist in the EMP fusion-primer design but are NOT in the deposited reads
-# (0/40,000 reads match either primer at the 5' end; reads begin at the first
-# biological base). Recorded for provenance; unused because cutadapt is skipped.
-FW_primer: GTGYCAGCMGCCGCGGTAA      # 515F-Y  (Parada)
-RV_primer: GGACTACNVGGGTWTCTAAT     # 806RB   (Apprill)
+# Primers are not in the deposited reads, so cutadapt is skipped (recorded for provenance)
+FW_primer: GTGYCAGCMGCCGCGGTAA                # 515F-Y
+RV_primer: GGACTACNVGGGTWTCTAAT               # 806RB
 skip_cutadapt: true
 
-# DADA2 filtering. trunclen/max_ee are the authors' published values (SI).
-# Retained over better-performing alternatives for reproduction fidelity;
-# sensitivity analysis found Mantel r > 0.999 across 245/235, 240/220, 220/180
-# (see docs/decisions.md Findings 7).
 trunclenf: 245
 trunclenr: 235
 max_ee: 2
-truncq: 2                          # DADA2 default; not specified in the paper
+truncq: 2
 
-# Near-empty negative controls (6-117 reads) must not abort the run.
-# They are required in-table for decontam at Step 7.
+# Near-empty negative controls must not stop the run
 ignore_empty_input_files: true
 ignore_failed_filtering: true
 
-# Taxonomy. Paper used SILVA v123, unavailable in ampliseq 2.18.0; 138 is the
-# nearest supported release. Expect species-level divergence from the published
-# table (2020 Lactobacillus reclassification, Gardnerella genus split).
+# SILVA 123 (used in the original study) is not available in ampliseq; 138 is used
 dada_ref_taxonomy: silva=138
-dada_min_boot: 50                  # DADA2/ampliseq default
-skip_dada_addspecies: false        # species resolution IS the paper's main result
-dada_addspecies_allowmultiple: false   # Gardnerella spp. share V4; ambiguous -> NA
-dada_assign_chunksize: 5000        # smaller chunks = shorter per-task runtime, more parallelism
+dada_min_boot: 50
+skip_dada_addspecies: false
+dada_addspecies_allowmultiple: false
+dada_assign_chunksize: 5000
 
-# No filtering inside the pipeline. The paper's filter (<3 samples or <100 reads
-# study-wide) and decontam are applied in R at Step 7 so Fig. 4 stays reproducible
-# and we can check our contaminant list against theirs.
+# No abundance filtering in the pipeline; filtering and analysis are done in R
 min_frequency: 1
 min_samples: 1
 decontam: none
-
-# Diversity/ordination in phyloseq+vegan (Steps 9-10), DA in MaAsLin2/ANCOM-BC2
-# (Step 12). QIIME2 skipped. NOTE: ampliseq 2.18.0 has no standalone tree builder -
-# the de novo tree lives inside QIIME2 - so the tree is built in R at Step 9 from
-# the FILTERED ASV set (much smaller, and the right set to build it on anyway).
 skip_qiime: true
 
-# DADA2_QUALITY (aggregate plotQualityProfile across 2,367 samples) failed on all
-# four tasks (QUALITY1/2 x FW/RV) with a BiocParallel reducer error after a worker
-# died. A plotting step, not analysis. Legal to skip because trunclenf/trunclenr
-# are explicitly set. The quality profiles that justified 245/235 come from the
-# pilot at identical parameters (results/pilot/dada2/QC/), so nothing is lost.
-# Run 10629773, 2026-09-25.
+# Aggregate quality plots failed on 2,367 samples; truncation was chosen from the pilot's plots
 skip_dada_quality: true

@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
-"""Truncation sensitivity: compare ASV tables across truncLen settings.
+"""Truncation sensitivity: merge rates per setting, and Mantel test of Bray-Curtis matrices against 245/235.
 
-ASV sequences differ between settings, so tables are not directly comparable.
-Instead a Bray-Curtis distance matrix is built independently per setting on the
-shared samples, and the matrices are compared to the reference by Mantel test.
-That asks the question that matters: does the parameter change the relationships
-between samples, i.e. the biology?
+Run from 01_pipeline/ after the pilot and truncation runs.
 """
 import csv, itertools, os
 import numpy as np
@@ -24,7 +20,7 @@ def load_table(d):
     samples = rows[0][1:]
     ids = [r[0] for r in rows[1:]]
     mat = np.array([[float(x) for x in r[1:]] for r in rows[1:]], float)
-    return samples, mat.T, ids          # samples x ASVs
+    return samples, mat.T, ids
 
 def load_seqs(d):
     out, name = {}, None
@@ -78,7 +74,7 @@ def merged_pct(stats, sid):
     return 100 * mrg / inp if inp and mrg is not None and inp > 0 else None
 
 def core_frac(d):
-    """fraction of reads carried by ASVs of on-target length (252-254 bp)"""
+    """Percent of reads in ASVs of on-target length (252-254 bp)."""
     seqs = load_seqs(d)
     rows = list(csv.reader(open(os.path.join(d, "dada2/ASV_table.tsv")), delimiter="\t"))
     tot = core = 0.0
